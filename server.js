@@ -6,7 +6,7 @@ import Player from './src/Player';
 
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketio(server, { origins: '*:*'});
 
 let sockets = {};
 
@@ -53,5 +53,7 @@ io.on('connection', socket => {
     socket.on("disconnect", () => userDisconnected(socket));
     socket.on("move", moveData => playerMoved(socket, moveData));
 });
+
+const PORT = process.env.PORT || 
 
 server.listen(3000, () => console.log("Server running on port 3000"));
