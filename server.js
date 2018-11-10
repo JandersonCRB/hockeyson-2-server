@@ -24,7 +24,7 @@ const playersAsArray = () => {
 
 const userConnected = socket => {
     sockets[socket.id] = socket;
-    new Player(socket.id);
+    new Player({ id: socket.id });
     console.log('Socket conectado ' + socket.id);
 }
 
@@ -39,7 +39,7 @@ const playerMoved = (socket, moveData) => {
     player.move(moveData.direction, moveData.state);
 }
 
-const UPS = 25;
+const UPS = 60;
 const gameLoop = setInterval(() => {
     for(let key in Player.list){
         let player = Player.list[key];

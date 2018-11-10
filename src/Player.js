@@ -4,10 +4,11 @@ import GameObject from './GameObject';
 
 class Player extends GameObject {
 	static list = {};
-	constructor(id, { color=randomcolor(), radius=12.5} = {}) {
-		super();
+	constructor({ id=null, color=randomcolor(), radius=12.5 }) {
+		super( ...arguments );
+		this.id = id;
 		this.color = color;
-		this.maxSpd = 10;
+		this.maxSpd = 5;
 		this.radius = radius;
 		this.pressignUp    = false;
 		this.pressingRight = false;
@@ -16,10 +17,14 @@ class Player extends GameObject {
 
 		this.spdX = 0;
 		this.spdY = 0;
-
-		Player.list[id] = this;
+		
+		if(id) Player.list[id] = this;
 	}
 	
+	static collides(a, b){
+		return Math.hypot(b.x-a.x, b.y-a.y) <= a.radius + b.radius;
+	}
+
 	/**
 	 * 
 	 * @param {string} side 
@@ -48,6 +53,14 @@ class Player extends GameObject {
 }
 
 const updatePosition = player => {
+	for(let key in Player.list) {
+		if(key === player.id){
+			continue;
+		}
+		if(Player.collides(new Player({ x: player.x + player.spdX, y: player.y + player.spdY, radius: player.radius }), Player.list[key])){
+			return;
+		}
+	}
 	player.x += player.spdX;
 	player.y += player.spdY;
 }
