@@ -1,6 +1,7 @@
 import randomcolor from 'randomcolor';
 
 import GameObject from './GameObject';
+import Screen from './Screen';
 
 class Player extends GameObject {
 	static list = {};
@@ -53,11 +54,15 @@ class Player extends GameObject {
 }
 
 const updatePosition = player => {
+	const playerIntent = new Player({ x: player.x + player.spdX, y: player.y + player.spdY, radius: player.radius });
+	if(playerIntent.x >= Screen.WIDTH || playerIntent.x < 0 || playerIntent.y >= Screen.HEIGHT || playerIntent.y < 0) {
+		return
+	}
 	for(let key in Player.list) {
 		if(key === player.id){
 			continue;
 		}
-		if(Player.collides(new Player({ x: player.x + player.spdX, y: player.y + player.spdY, radius: player.radius }), Player.list[key])){
+		if(Player.collides(playerIntent, Player.list[key])){
 			return;
 		}
 	}

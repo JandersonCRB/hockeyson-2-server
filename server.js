@@ -2,6 +2,8 @@ import express from 'express';
 import http from 'http';
 import socketio from 'socket.io';
 
+import Screen from './src/Screen';
+
 import Player from './src/Player';
 
 const app = express();
@@ -24,7 +26,11 @@ const playersAsArray = () => {
 
 const userConnected = socket => {
     sockets[socket.id] = socket;
-    new Player({ id: socket.id });
+    new Player({ 
+        id: socket.id,
+        x: Math.random() * Screen.WIDTH,
+        y: Math.random() * Screen.HEIGHT 
+    });
     console.log('Socket conectado ' + socket.id);
 }
 
