@@ -29,7 +29,7 @@ const userConnected = socket => {
     new Player({ 
         id: socket.id,
         x: Math.random() * Screen.WIDTH,
-        y: Math.random() * Screen.HEIGHT 
+        y: Math.random() * Screen.HEIGHT,
     });
     console.log('Socket conectado ' + socket.id);
 }
@@ -51,8 +51,12 @@ const gameLoop = setInterval(() => {
         let player = Player.list[key];
         player.tick();
     }
-    io.emit("update", playersAsArray());
+    
 }, 1000/UPS)
+
+setInterval(() => {
+    io.emit("update", playersAsArray());
+}, 200)
 
 io.on('connection', socket => {
     userConnected(socket);

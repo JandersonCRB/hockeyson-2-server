@@ -1,9 +1,9 @@
 import randomcolor from 'randomcolor';
 
-import GameObject from './GameObject';
+import Circle from './Circle';
 import Screen from './Screen';
 
-class Player extends GameObject {
+class Player extends Circle {
 	static list = {};
 	constructor({ id=null, color=randomcolor(), radius=12.5 }) {
 		super( ...arguments );
@@ -54,10 +54,15 @@ class Player extends GameObject {
 }
 
 const updatePosition = player => {
+	// Simula o player na posição futura na qual ele está tentando se mover.
 	const playerIntent = new Player({ x: player.x + player.spdX, y: player.y + player.spdY, radius: player.radius });
+
+	// Verifica se o player está dentro dos limites da tela.
 	if(playerIntent.x >= Screen.WIDTH || playerIntent.x < 0 || playerIntent.y >= Screen.HEIGHT || playerIntent.y < 0) {
 		return
 	}
+
+	// Verifica a colisão de si mesmo com todos os outros players no jogo.
 	for(let key in Player.list) {
 		if(key === player.id){
 			continue;
@@ -66,6 +71,8 @@ const updatePosition = player => {
 			return;
 		}
 	}
+
+	// Caso tudo tenha ocorrido bem, vai mover o player para a nova posição.
 	player.x += player.spdX;
 	player.y += player.spdY;
 }
