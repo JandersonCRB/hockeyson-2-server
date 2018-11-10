@@ -1,0 +1,22 @@
+{
+  "name": "hockeyson-2-server",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "babel-node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Janderson",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.4",
+    "randomcolor": "^0.5.3",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1"
+  }
+}
