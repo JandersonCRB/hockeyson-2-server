@@ -57,11 +57,17 @@ const gameLoop = setInterval(() => {
     io.emit("update", playersAsArray());
 }, 1000/UPS)
 
+// TODO: Remove this and get user nickname
+let idCount = 0;
+
 io.on('connection', socket => {
     userConnected(socket);
+    socket.userId = idCount++;
     socket.on("send_msg", msg => {
+        msg.sender = "User #" + socket.userId;
         msgs.push(msg);
         socket.broadcast.emit("new_msg", msg);
+        socket.emit("update_msgs", msgs);
     });
     socket.emit("update_msgs", msgs);
     socket.on("disconnect", () => userDisconnected(socket));
