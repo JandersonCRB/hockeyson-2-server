@@ -5,12 +5,15 @@ import socketio from 'socket.io';
 import Screen from './src/Screen';
 
 import Player from './src/Player';
+import Puck from './src/Puck';
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server, { origins: '*:*'});
 
 let sockets = {};
+// let puck = new Puck();
+let msgs = [];
 
 const playersAsArray = () => {
     return Object.keys(Player.list).map(key => {
@@ -51,15 +54,16 @@ const gameLoop = setInterval(() => {
         let player = Player.list[key];
         player.tick();
     }
-    
-}, 1000/UPS)
-
-setInterval(() => {
     io.emit("update", playersAsArray());
-}, 200)
+}, 1000/UPS)
 
 io.on('connection', socket => {
     userConnected(socket);
+    socket.on("send_msg", msg => {
+        msgs.push(msg);
+        socket.broadcast.emit("new_msg", msg);
+    });
+    socket.emit("update_msgs", msgs);
     socket.on("disconnect", () => userDisconnected(socket));
     socket.on("move", moveData => playerMoved(socket, moveData));
 });

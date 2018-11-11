@@ -1,16 +1,12 @@
-import randomcolor from 'randomcolor';
-
 import Circle from './Circle';
 import Screen from './Screen';
 
 class Player extends Circle {
 	static list = {};
-	constructor({ id=null, color=randomcolor(), radius=12.5 }) {
+	constructor({ id=null }) {
 		super( ...arguments );
 		this.id = id;
-		this.color = color;
 		this.maxSpd = 5;
-		this.radius = radius;
 		this.pressignUp    = false;
 		this.pressingRight = false;
 		this.pressingDown  = false;
@@ -20,10 +16,6 @@ class Player extends Circle {
 		this.spdY = 0;
 		
 		if(id) Player.list[id] = this;
-	}
-	
-	static collides(a, b){
-		return Math.hypot(b.x-a.x, b.y-a.y) <= a.radius + b.radius;
 	}
 
 	/**
