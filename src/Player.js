@@ -49,20 +49,7 @@ const updatePosition = player => {
 	// Simula o player na posição futura na qual ele está tentando se mover.
 	const playerIntent = new Player({ x: player.x + player.spdX, y: player.y + player.spdY, radius: player.radius });
 
-	// Verifica se o player está dentro dos limites da tela.
-	if(playerIntent.x >= Screen.WIDTH || playerIntent.x < 0 || playerIntent.y >= Screen.HEIGHT || playerIntent.y < 0) {
-		return
-	}
-
-	// Verifica a colisão de si mesmo com todos os outros players no jogo.
-	for(let key in Player.list) {
-		if(key === player.id){
-			continue;
-		}
-		if(Player.collides(playerIntent, Player.list[key])){
-			return;
-		}
-	}
+	
 
 	// Caso tudo tenha ocorrido bem, vai mover o player para a nova posição.
 	player.x += player.spdX;
@@ -88,6 +75,44 @@ const updateSpeed = player => {
 		player.spdX = -player.maxSpd;
 	} else {
 		player.spdX = 0;
+	}
+
+	// Simula o player na posição futura na qual ele está tentando se mover.
+	let playerIntent;
+	playerIntent = new Player({ x: player.x + player.spdX, y: player.y, radius: player.radius });
+
+	// Verifica se o player está dentro dos limites da tela.
+	if(playerIntent.x >= Screen.WIDTH || playerIntent.x < 0) {
+		player.spdX = 0;
+	}
+	if(player.spdX !== 0) {
+		// Verifica a colisão de si mesmo com todos os outros players no jogo.
+		for(let key in Player.list) {
+			if(key === player.id){
+				continue;
+			}
+			if(Player.collides(playerIntent, Player.list[key])){
+				player.spdX = 0;
+				break;
+			}
+		}
+	}
+
+	playerIntent = new Player({ x: player.x, y: player.y + player.spdY, radius: player.radius });
+	if(playerIntent.y >= Screen.HEIGHT || playerIntent.y < 0) {
+		player.spdY = 0;
+	}
+	if(player.spdY !== 0) {
+		// Verifica a colisão de si mesmo com todos os outros players no jogo.
+		for(let key in Player.list) {
+			if(key === player.id){
+				continue;
+			}
+			if(Player.collides(playerIntent, Player.list[key])){
+				player.spdY = 0;
+				break;
+			}
+		}
 	}
 }
 

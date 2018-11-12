@@ -48,13 +48,18 @@ const playerMoved = (socket, moveData) => {
     player.move(moveData.direction, moveData.state);
 }
 
+const generateGameState = () => ({
+    players: playersAsArray(),
+    pucks: [ puck ],
+})
+
 const UPS = 60;
 const gameLoop = setInterval(() => {
     for(let key in Player.list){
         let player = Player.list[key];
         player.tick();
     }
-    io.emit("update", playersAsArray());
+    io.emit("update", generateGameState());
 }, 1000/UPS)
 
 // TODO: Remove this and get user nickname
