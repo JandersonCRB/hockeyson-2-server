@@ -3,7 +3,7 @@ import Screen from './Screen';
 
 class Player extends Circle {
 	static list = {};
-	constructor({ id=null }) {
+	constructor({ id=null } = {}) {
 		super( ...arguments );
 		this.id = id;
 		this.maxSpd = 5;

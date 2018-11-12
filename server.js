@@ -12,7 +12,7 @@ const server = http.createServer(app);
 const io = socketio(server, { origins: '*:*'});
 
 let sockets = {};
-// let puck = new Puck();
+let puck = new Puck();
 let msgs = [];
 
 const playersAsArray = () => {
@@ -39,7 +39,7 @@ const userConnected = socket => {
 
 const userDisconnected = socket=> {
     delete Player.list[socket.id];
-    delete sockets[socket.id]
+    delete sockets[socket.id];
     console.log("Deleted " + socket.id)
 }
 

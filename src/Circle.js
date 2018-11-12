@@ -3,7 +3,7 @@ import randomcolor from 'randomcolor';
 import GameObject from './GameObject';
 
 class Circle extends GameObject {
-    constructor({ color=randomcolor(), radius=12.5 }) {
+    constructor({ color=randomcolor(), radius=12.5 } = {}) {
         super( ...arguments );
         this.color = color;
         this.radius = radius;
