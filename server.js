@@ -64,10 +64,12 @@ io.on('connection', socket => {
     userConnected(socket);
     socket.userId = idCount++;
     socket.on("send_msg", msg => {
-        msg.sender = "User #" + socket.userId;
-        msgs.push(msg);
-        socket.broadcast.emit("new_msg", msg);
-        socket.emit("update_msgs", msgs);
+        if(msg.content && msg.content.length > 0) {
+            msg.sender = "User #" + socket.userId;
+            msgs.push(msg);
+            socket.broadcast.emit("new_msg", msg);
+            socket.emit("update_msgs", msgs);
+        }
     });
     socket.emit("update_msgs", msgs);
     socket.on("disconnect", () => userDisconnected(socket));
