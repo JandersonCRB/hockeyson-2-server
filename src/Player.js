@@ -46,11 +46,6 @@ class Player extends Circle {
 }
 
 const updatePosition = player => {
-	// Simula o player na posição futura na qual ele está tentando se mover.
-	const playerIntent = new Player({ x: player.x + player.spdX, y: player.y + player.spdY, radius: player.radius });
-
-	
-
 	// Caso tudo tenha ocorrido bem, vai mover o player para a nova posição.
 	player.x += player.spdX;
 	player.y += player.spdY;

@@ -59,6 +59,7 @@ const gameLoop = setInterval(() => {
         let player = Player.list[key];
         player.tick();
     }
+    puck.tick();
     io.emit("update", generateGameState());
 }, 1000/UPS)
 
